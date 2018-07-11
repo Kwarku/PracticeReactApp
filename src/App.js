@@ -10,6 +10,14 @@ state = {
     {name:'Michał', city:'Kraków'},
   ]
 }
+changeCityHanlder = (cityName) => {
+  this.setState({
+    users:[
+      {name:'Paweł', city:'Szczecin'},
+      {name:'Michał', city:cityName},
+    ]
+  })
+}
 
 render() {
     return (
@@ -17,6 +25,7 @@ render() {
         <UserInput />
         <UserOutput name={this.state.users[0].name} city={this.state.users[0].city}/>
         <UserOutput name={this.state.users[1].name} city={this.state.users[1].city}/>
+        <button onClick={this.changeCityHanlder.bind(this,"Kołobrzeg")}>Change City </button>
       </div>
     );
   }
