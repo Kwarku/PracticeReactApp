@@ -24,7 +24,29 @@ changeParagraphTextHanlder = (event) => {
     textSize : size,
     letters : tempArray,
   })
-  
+
+}
+
+deleteElementHanlder = (id) =>{
+  const letterIndex = this.state.letters.findIndex(l=>{
+    return l.key === id;
+  })
+  let tempLetters = [...this.state.letters];
+  tempLetters[letterIndex].value = '';
+
+  let tempText = '';
+  tempLetters.map(l => {
+    if(l.value !== ''){
+      tempText = tempText+l.value;
+    }
+    return tempText;
+  })
+
+  this.setState({
+    letters: tempLetters,    
+    text:tempText,
+    textSize : tempText.length,
+  })
 }
 
   render() {
@@ -34,7 +56,16 @@ changeParagraphTextHanlder = (event) => {
       showLetter = 
          ( <div>   
             {this.state.letters.map(letter =>{
-              return <Char text={letter.value}/>
+              if(letter.value === ''){
+                return null;
+              }else{
+                return <Char 
+                delete={() =>this.deleteElementHanlder(letter.key)} 
+                text={letter.value}
+                key={letter.key}/>
+              }
+
+              
             })}
           </div>
          )
