@@ -29,7 +29,7 @@ class App extends Component {
   }
 
   render() {
-        return (
+    return (
       <div className="App">
         <UserInput normalName={this.state.users[0].name} change={this.dynamicNameChange} />
         <UserOutput
