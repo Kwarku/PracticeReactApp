@@ -19,13 +19,30 @@ changeCityHanlder = (cityName) => {
   })
 }
 
+dynamicNameChange= (event) => {
+  this.setState({
+    users:[
+      {name:event.target.value, city:'Szczecin'},
+      {name:'Michał', city:'Kraków'},
+    ]
+  })
+}
+
 render() {
     return (
       <div className="App">
-        <UserInput />
-        <UserOutput name={this.state.users[0].name} city={this.state.users[0].city}/>
-        <UserOutput name={this.state.users[1].name} city={this.state.users[1].city}/>
-        <button onClick={this.changeCityHanlder.bind(this,"Kołobrzeg")}>Change City </button>
+        <UserInput normalName={this.state.users[0].name} change={this.dynamicNameChange}/>
+        <UserOutput 
+        name={this.state.users[0].name} 
+        city={this.state.users[0].city}/>
+
+        <UserOutput 
+        name={this.state.users[1].name} 
+        city={this.state.users[1].city}/>
+
+        <button 
+        onClick={this.changeCityHanlder.bind(this,"Kołobrzeg")}
+        >Change City </button>
       </div>
     );
   }
