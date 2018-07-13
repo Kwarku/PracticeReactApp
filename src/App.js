@@ -4,78 +4,47 @@ import Validator from './Validator/Validator.js';
 import Char from './Char/Char.js';
 
 class App extends Component {
-state ={
-  text : null,
-  textSize : null,
-  letters : []
-}
-
-changeParagraphTextHanlder = (event) => {
-  const tempWord = event.target.value;
-  const size = tempWord.length;
-  const tempArray = [...this.state.letters];
-  tempArray[size-1] = {
-    value : (tempWord.slice(size-1,size)),
-    key: (Math.random()*100)
+  state = {
+    text: '',
   }
 
-  this.setState({
-    text: tempWord,
-    textSize : size,
-    letters : tempArray,
-  })
+  changeParagraphTextHanlder = (event) => {
+    this.setState({
+      text: event.target.value
+    })
+  }
 
-}
+  deleteElementHanlder = (index) => {
+    let letters = this.state.text.split('');
+    letters.splice(index,1);
+    const updateText = letters.join('');
 
-deleteElementHanlder = (id) =>{
-  const letterIndex = this.state.letters.findIndex(l=>{
-    return l.key === id;
-  })
-  let tempLetters = [...this.state.letters];
-  tempLetters[letterIndex].value = '';
-
-  let tempText = '';
-  tempLetters.map(l => {
-    if(l.value !== ''){
-      tempText = tempText+l.value;
-    }
-    return tempText;
-  })
-
-  this.setState({
-    letters: tempLetters,    
-    text:tempText,
-    textSize : tempText.length,
-  })
-}
+    this.setState({
+      text: updateText,
+    })
+  }
 
   render() {
-    
-    let showLetter = null;
-    if(this.state.textSize > 0){
-      showLetter = 
-         ( <div>   
-            {this.state.letters.map(letter =>{
-              if(letter.value === ''){
-                return null;
-              }else{
-                return <Char 
-                delete={() =>this.deleteElementHanlder(letter.key)} 
-                text={letter.value}
-                key={letter.key}/>
-              }
 
-              
-            })}
-          </div>
-         )
-      }
+    let showLetter = (<div>
+      {this.state.text.split('').map((ch, index) => {
+        return <Char
+          delete={() => this.deleteElementHanlder(index)}
+          text={ch}
+          key={index} />
+      })}
+    </div>)
+
 
     return (
       <div className="App">
-        <input onChange={this.changeParagraphTextHanlder} value={this.state.text} type="text" />
-        <p>{this.state.textSize}</p>
-        <Validator size={this.state.textSize}/>
+        <input
+          onChange={this.changeParagraphTextHanlder}
+          value={this.state.text}
+          type="text" />
+
+        <p>{this.state.text.length}</p>
+        <Validator size={this.state.text.length} />
         {showLetter}
       </div>
     );
